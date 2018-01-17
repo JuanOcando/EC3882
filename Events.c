@@ -207,15 +207,8 @@ void AD1_OnEnd(void)
 void Cap1_OnCapture(void)
 {
   /* Write your code here ... */
-	if (primero == TRUE){
-		error = Cap1_Reset();
-		primero = FALSE;
-	}
-	
-	if (primero==FALSE){
-		error = Cap1_GetCaptureValue(&periodo);
-		error = Cap1_Reset();
-	}
+
+	// Borré el código del Capture porque todavía no es relevante....
 	
 }
 
