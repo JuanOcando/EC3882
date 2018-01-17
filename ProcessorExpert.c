@@ -45,7 +45,7 @@
 
 unsigned char estado = ESPERAR;
 unsigned char CodError;
-unsigned int Enviados = 2;
+unsigned int Enviados = 2;		// Esta variable no aporta nada más sino el número de elementos del arreglo a enviar.
 unsigned int error;
 bool primero = FALSE;
 unsigned int periodo;
@@ -56,8 +56,8 @@ unsigned int u16;
 }AMPLITUD;
 
 volatile AMPLITUD iADC;
-unsigned char cTrama[5]={0x00,0x00,0x00,0x00,0xFF};
-unsigned char dTrama[2]={0x00,0x00};
+unsigned char cTrama[5]={0x00,0x00,0x00,0x00,0xFF}; 	// Esta es una primera trama que yo hice de ejemplo.
+unsigned char dTrama[2]={0x00,0x00};			// Esta es la trama que declaré para rellenarla con la medición del ADC.	
 
 void main(void)
 {
@@ -86,7 +86,10 @@ void main(void)
   			break;
   	
   		case ENVIAR:
-  			if(iADC.u8[0] != 0xFF){
+  			
+			/*
+			
+			if(iADC.u8[0] != 0xFF){
   				cTrama[1] = iADC.u8[0];
   				cTrama[3] = 0x00;	
   			}else{
@@ -98,13 +101,18 @@ void main(void)
   				cTrama[2] = iADC.u8[1];				
   			}else{
   				cTrama[2] = 0xFE;
-  				cTrama[3] = cTrama[3] | 0x0A;
-  			}
+  				cTrama[3] = cTrama[3] | 0x0A;	//Esta tiene el protocolo completo.
+  			}					//Al final yo solo quiero que miren la sintaxis de las funciones.
   	
+						
   			dTrama[0]=(periodo >> 8) & (0xFF);
   			dTrama[1]=(periodo) & (0xFF);
+			
+			*/
+			
+			// ENVIAR SOLO LA MEDICIÓN DE 16 BITS SIN TRAMA NI PROTOCOLO:
   			
-  			CodError = AS1_SendBlock(dTrama,2,&Enviados);
+  			CodError = AS1_SendBlock(iADC.u8,2,&Enviados); //El arreglo con la medición está en iADC.u8 (notar que es un apuntador)
   			estado = ESPERAR;
   			
   			break;
